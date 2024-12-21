@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject private var homeVM: HomeViewModel
     @State private var showPortfolio: Bool = false
-
     var body: some View {
         ZStack {
             //background layer
@@ -19,6 +19,19 @@ struct HomeView: View {
             //content layer
             VStack {
                 homeHeader
+                
+                columnTitles
+                
+                if !showPortfolio {
+                    allCoinsList
+                        .transition(.move(edge: .leading))
+                }
+                
+                if showPortfolio {
+                    portfolioCoinsList
+                        .transition(.move(edge: .trailing))
+                }
+                
                 Spacer(minLength: 0)
             }
         }
@@ -50,6 +63,41 @@ extension HomeView {
                 }
         }.padding(.horizontal)
     }
+    
+    private var allCoinsList: some View {
+        List {
+            ForEach(homeVM.allCoins) { coin in
+                CoinRowView(coin: coin, showHolding: false)
+                    .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+            }
+        }
+        .listStyle(PlainListStyle())
+    }
+    
+    private var portfolioCoinsList: some View {
+        List {
+            ForEach(homeVM.portfolioCoins) { coin in
+                CoinRowView(coin: coin, showHolding: true)
+                    .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+            }
+        }
+        .listStyle(PlainListStyle())
+    }
+    
+    private var columnTitles: some View {
+        HStack {
+            Text("Coins")
+            Spacer()
+            if showPortfolio {
+                Text("Holdings")
+            }
+            Text("Price")
+                .frame(width: UIScreen.main.bounds.width/3, alignment: .trailing)
+        }
+        .font(.caption)
+        .foregroundColor(Color.theme.secondaryText)
+        .padding(.horizontal)
+    }
 }
 
 #Preview {
@@ -57,4 +105,5 @@ extension HomeView {
         HomeView()
             .navigationBarHidden(true)
     }
+    .environmentObject(DeveloperPreview.instance.homeVm)
 }

@@ -14,8 +14,8 @@ extension Double {
         formater.usesGroupingSeparator = true
         formater.numberStyle = .currency
         formater.locale = .current
-        formater.currencyCode = "INR"
-        formater.currencySymbol = "₹"
+        formater.currencyCode = "USD"
+        formater.currencySymbol = "$"
         formater.minimumFractionDigits = 2
         formater.maximumFractionDigits = 6
         return formater
@@ -31,8 +31,8 @@ extension Double {
         formater.usesGroupingSeparator = true
         formater.numberStyle = .currency
         formater.locale = .current
-        formater.currencyCode = "INR"
-        formater.currencySymbol = "₹"
+        formater.currencyCode = "USD"
+        formater.currencySymbol = "$"
         formater.minimumFractionDigits = 2
         formater.maximumFractionDigits = 2
         return formater

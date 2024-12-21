@@ -18,12 +18,14 @@ class DeveloperPreview {
     static let instance = DeveloperPreview()
     private init() {}
     
+    let homeVm = HomeViewModel()
+    
     let coin = CoinModel(
        id: "bitcoin",
        symbol: "btc",
        name: "Bitcoin",
        image: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-       currentPrice: 5861408.83193183,
+       currentPrice: 61408.831983,
        marketCap: 1141731099010,
        marketCapRank: 1,
        fullyDilutedValuation: 1285385611303,

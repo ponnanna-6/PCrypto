@@ -32,13 +32,13 @@ extension CoinRowView {
             Text("\(coin.rank)")
                 .font(.caption)
                 .foregroundColor(Color.theme.secondaryText)
-                .frame(minWidth: 30)
+                .frame(minWidth: 20)
             Circle()
                 .frame(width: 30, height: 30)
             Text(coin.symbol.uppercased())
                 .font(.headline)
                 .foregroundColor(Color.theme.accent)
-                .padding(.leading, 6)
+                .padding(.leading, 2)
         }
     }
     
@@ -59,7 +59,7 @@ extension CoinRowView {
             Text(coin.priceChangePercentage24H?.asPercentage() ?? "")
                 .foregroundColor(coin.priceChangePercentage24H ?? 0 >= 0 ? Color.theme.green : Color.theme.red)
         }
-        .frame(width: UIScreen.main.bounds.width/2.5, alignment: .trailing)
+        .frame(width: UIScreen.main.bounds.width/3, alignment: .trailing)
     }
 }
 
