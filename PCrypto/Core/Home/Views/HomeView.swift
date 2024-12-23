@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject private var homeVM: HomeViewModel
     @State private var showPortfolio: Bool = false
+    
     var body: some View {
         ZStack {
             //background layer
@@ -20,12 +21,14 @@ struct HomeView: View {
             VStack {
                 homeHeader
                 
+                SearchBarView(searchText: $homeVM.seachText)
+                
                 columnTitles
                 
                 if !showPortfolio {
                     allCoinsList
                         .transition(.move(edge: .leading))
-                }
+               }
                 
                 if showPortfolio {
                     portfolioCoinsList
