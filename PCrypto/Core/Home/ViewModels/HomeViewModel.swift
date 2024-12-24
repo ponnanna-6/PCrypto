@@ -9,15 +9,13 @@ import Combine
 import Foundation
 
 class HomeViewModel: ObservableObject {
-    
-    @Published var statistics: [StatisticsModel] = [
-        StatisticsModel(title: "MArket cap", value: "$2.5tr", percentageChange: 0.7)
-    ]
     @Published var allCoins: [CoinModel] = []
+    @Published var statistics: [StatisticsModel] = []
     @Published var portfolioCoins: [CoinModel] = []
     @Published var seachText: String = ""
 
     private let coinDataService = CoinDataService()
+    private let marketDataService = MarketDataService()
     private var cancellables = Set<AnyCancellable>()
 
     init() {
@@ -37,6 +35,13 @@ class HomeViewModel: ObservableObject {
                 self?.allCoins = returnedCoins
             }
             .store(in: &cancellables)
+        
+        marketDataService.$globalMarketData
+            .map(mapGlobalMarketData)
+            .sink { [weak self] (returnedData) in
+                self?.statistics = returnedData
+            }
+            .store(in: &cancellables)
     }
 
     private func filterCoins(text: String, coins: [CoinModel]) -> [CoinModel] {
@@ -52,5 +57,21 @@ class HomeViewModel: ObservableObject {
                 || coin.id.lowercased().contains(lowerCaseText)
         }
         return filteredCoins
+    }
+    
+    private func mapGlobalMarketData(marketDataModel: MarketDataModel?) -> [StatisticsModel] {
+        var stats: [StatisticsModel] = []
+        
+        guard let data = marketDataModel else {
+            return stats
+        }
+        
+        let marketData = StatisticsModel(title: "Market Cap", value: data.marketCap, percentageChange: data.marketCapChangePercentage24HUsd)
+        let volume = StatisticsModel(title: "24h Volume", value: data.volume)
+        let btcDominance = StatisticsModel(title: "BTC Dominance", value: data.btcDominance)
+        let porfolio = StatisticsModel(title: "Portfolio Value", value: "$0.00", percentageChange: 0)
+        
+        stats.append(contentsOf: [marketData, volume, btcDominance, porfolio])
+        return stats
     }
 }
