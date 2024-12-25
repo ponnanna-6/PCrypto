@@ -37,6 +37,7 @@ class HomeViewModel: ObservableObject {
             .store(in: &cancellables)
         
         marketDataService.$globalMarketData
+            .combineLatest($portfolioCoins)
             .map(mapGlobalMarketData)
             .sink { [weak self] (returnedData) in
                 self?.statistics = returnedData
@@ -59,7 +60,7 @@ class HomeViewModel: ObservableObject {
         return filteredCoins
     }
     
-    private func mapGlobalMarketData(marketDataModel: MarketDataModel?) -> [StatisticsModel] {
+    private func mapGlobalMarketData(marketDataModel: MarketDataModel?, porfolioCoins: [CoinModel]) -> [StatisticsModel] {
         var stats: [StatisticsModel] = []
         
         guard let data = marketDataModel else {

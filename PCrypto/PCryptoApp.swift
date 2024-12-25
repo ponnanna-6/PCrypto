@@ -9,11 +9,21 @@ import SwiftUI
 
 @main
 struct PCryptoApp: App {
-    @StateObject private var vm = HomeViewModel ()
-    
+    @StateObject private var vm = HomeViewModel()
+
+    init() {
+        UINavigationBar.appearance().largeTitleTextAttributes = [
+            .foregroundColor: UIColor(Color.theme.accent)
+        ]
+
+        UINavigationBar.appearance().titleTextAttributes = [
+            .foregroundColor: UIColor(Color.theme.accent)
+        ]
+    }
+
     var body: some Scene {
         WindowGroup {
-            NavigationView() {
+            NavigationView {
                 HomeView()
                     .navigationBarHidden(true)
             }
