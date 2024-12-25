@@ -63,8 +63,10 @@ class HomeViewModel: ObservableObject {
     }
     
     func reloadData() {
-        isLoading = true
-        coinDataService.getCoins()
+        if !isLoading {
+            isLoading = true
+            coinDataService.getCoins()
+        }
     }
 
     private func filterCoins(text: String, coins: [CoinModel]) -> [CoinModel] {
