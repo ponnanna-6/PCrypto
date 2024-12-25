@@ -16,12 +16,13 @@ class HomeViewModel: ObservableObject {
 
     private let coinDataService = CoinDataService()
     private let marketDataService = MarketDataService()
+    private let portfolioDataService = PorfolioDataService()
     private var cancellables = Set<AnyCancellable>()
 
     init() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.portfolioCoins.append(DeveloperPreview.instance.coin)
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//            self.portfolioCoins.append(DeveloperPreview.instance.coin)
+//        }
         addSubcribers()
     }
 
@@ -36,6 +37,16 @@ class HomeViewModel: ObservableObject {
             }
             .store(in: &cancellables)
         
+        //Update portfolio coins data
+        $allCoins
+            .combineLatest(portfolioDataService.$savedEntities)
+            .map(filterPortfolio)
+            .sink { [weak self] (returnedCoins) in
+                self?.portfolioCoins = returnedCoins
+            }
+            .store(in: &cancellables)
+        
+        //Update market data
         marketDataService.$globalMarketData
             .combineLatest($portfolioCoins)
             .map(mapGlobalMarketData)
@@ -43,6 +54,10 @@ class HomeViewModel: ObservableObject {
                 self?.statistics = returnedData
             }
             .store(in: &cancellables)
+    }
+    
+    func updatePortfolio(coin: CoinModel, amount: Double) {
+        portfolioDataService.update(coin: coin, amount: amount)
     }
 
     private func filterCoins(text: String, coins: [CoinModel]) -> [CoinModel] {
@@ -74,5 +89,15 @@ class HomeViewModel: ObservableObject {
         
         stats.append(contentsOf: [marketData, volume, btcDominance, porfolio])
         return stats
+    }
+    
+    private func filterPortfolio(coinModels: [CoinModel] , portfolioEntities: [PortfolioEntity]) -> [CoinModel] {
+        coinModels
+            .compactMap {(coin) -> CoinModel? in
+                guard let entity = portfolioEntities.first(where: {$0.coinId == coin.id}) else {
+                    return nil
+                }
+                return coin.updateHoldings(amount: entity.amount)
+            }
     }
 }
