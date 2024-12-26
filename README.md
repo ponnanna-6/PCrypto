@@ -23,24 +23,24 @@
 
 ---
 
-## **Demo**
-  
-*Click the video above to watch a demo of PCrypto in action.*
-
----
-
 ## **Screenshots**  
 Included a few visually appealing screenshots of your app to showcase its design and functionality.  
                                                                       
-<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  <img src="https://github.com/user-attachments/assets/81f412f5-9fca-4a34-90b5-352fa70ae99a" alt="Home screen" width="200">
-  <img src="https://github.com/user-attachments/assets/0ac652b0-112a-4ede-932c-f62367c7183e" alt="Home screen (light)" width="200">
-  <img src="https://github.com/user-attachments/assets/91885129-fd75-42d4-ab88-91691c6cadaa" alt="Coin detail" width="200">
-  <img src="https://github.com/user-attachments/assets/b55f2860-7379-4a02-9665-9584fd9c6cce" alt="Portfolio" width="200">
-  <img src="https://github.com/user-attachments/assets/18015c1c-6f7c-4629-938b-acafd62f755a" alt="Edit Portfolio" width="200">
-  <img src="https://github.com/user-attachments/assets/b3c7407e-7e22-445f-b494-8c353191c5fd" alt="Settings" width="200">
+<div style="display: flex; flex-wrap: wrap; justify-content: center; margin: -5px;">
+  <img src="https://github.com/user-attachments/assets/81f412f5-9fca-4a34-90b5-352fa70ae99a" alt="Home screen" width="200" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/0ac652b0-112a-4ede-932c-f62367c7183e" alt="Home screen (light)" width="200" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/91885129-fd75-42d4-ab88-91691c6cadaa" alt="Coin detail" width="200" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/b55f2860-7379-4a02-9665-9584fd9c6cce" alt="Portfolio" width="200" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/18015c1c-6f7c-4629-938b-acafd62f755a" alt="Edit Portfolio" width="200" style="margin: 5px;">
+  <img src="https://github.com/user-attachments/assets/b3c7407e-7e22-445f-b494-8c353191c5fd" alt="Settings" width="200" style="margin: 5px;">
 </div>
 
+---
+
+## **Demo**
+  
+*Click the video below to watch a demo of PCrypto in action.*
+https://github.com/user-attachments/assets/6636e47f-7ac0-4b5f-a514-91b4b7bf1461
 
 ---
 
