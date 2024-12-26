@@ -73,7 +73,7 @@ extension DetailView {
             Divider()
             LazyVGrid(
                 columns: columns,
-                alignment: .leading,
+                alignment: .center,
                 spacing: spacing,
                 content: {
                     ForEach(vm.overviewStatistics) { stat in
@@ -93,7 +93,7 @@ extension DetailView {
             Divider()
             LazyVGrid(
                 columns: columns,
-                alignment: .leading,
+                alignment: .center,
                 spacing: spacing,
                 content: {
                     ForEach(vm.additionalStatistics) { stat in
