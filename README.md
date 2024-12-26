@@ -25,13 +25,16 @@
 
 ## **Demo**
   
-*Click the image above to watch a demo of PCrypto in action.*
+*Click the video above to watch a demo of PCrypto in action.*
 
 ---
 
 ## **Screenshots**  
-Include a few visually appealing screenshots of your app to showcase its design and functionality.  
+Included a few visually appealing screenshots of your app to showcase its design and functionality.  
 
+![Home screen](https://github.com/user-attachments/assets/74bd1372-dcce-42ac-934d-fe9890ce8152)
+![Edit_portfolio](https://github.com/user-attachments/assets/eefd8ad3-e823-4fd3-b5fc-163fad3cec71)
+![settings](https://github.com/user-attachments/assets/e3f7571b-4b4f-4c10-ae2d-70c22062c524)
 ---
 
 ## **Installation**  
