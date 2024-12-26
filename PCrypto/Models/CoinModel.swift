@@ -100,3 +100,9 @@ struct CoinModel: Identifiable, Codable{
 struct SparklineIn7D: Codable{
     let price: [Double]?
 }
+
+struct PricePoint: Identifiable {
+    let id = UUID() // Unique identifier
+    let x: Int      // Auto-incremented value
+    let y: Double   // Price value
+}
