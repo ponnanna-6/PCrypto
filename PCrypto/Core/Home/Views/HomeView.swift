@@ -11,10 +11,10 @@ struct HomeView: View {
     @EnvironmentObject private var homeVM: HomeViewModel
     @State private var showPortfolio: Bool = false  // for right left animation
     @State private var showPortfolioView: Bool = false  // for new view popup
-    
+
     @State private var selectedCoin: CoinModel? = nil
     @State private var showDetailView: Bool = false
-    
+
     @State private var showSettings: Bool = false
 
     var body: some View {
@@ -46,14 +46,18 @@ struct HomeView: View {
 
                 columnTitles
 
-                if !showPortfolio {
-                    allCoinsList
-                        .transition(.move(edge: .leading))
-                }
+                if homeVM.allCoins.isEmpty {
+                    loadingView
+                } else {
+                    if !showPortfolio {
+                        allCoinsList
+                            .transition(.move(edge: .leading))
+                    }
 
-                if showPortfolio {
-                    portfolioCoinsList
-                        .transition(.move(edge: .trailing))
+                    if showPortfolio {
+                        portfolioCoinsList
+                            .transition(.move(edge: .trailing))
+                    }
                 }
 
                 Spacer(minLength: 0)
@@ -63,7 +67,7 @@ struct HomeView: View {
             NavigationLink(
                 destination: DetailLoadingView(coin: $selectedCoin),
                 isActive: $showDetailView,
-                label: {EmptyView()}
+                label: { EmptyView() }
             )
         )
     }
@@ -107,7 +111,8 @@ extension HomeView {
             ForEach(homeVM.allCoins) { coin in
                 CoinRowView(coin: coin, showHolding: false)
                     .listRowInsets(
-                        .init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                        .init(top: 10, leading: 0, bottom: 10, trailing: 10)
+                    )
                     .onTapGesture {
                         segue(coin: coin)
                     }
@@ -121,7 +126,8 @@ extension HomeView {
             ForEach(homeVM.portfolioCoins) { coin in
                 CoinRowView(coin: coin, showHolding: true)
                     .listRowInsets(
-                        .init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                        .init(top: 10, leading: 0, bottom: 10, trailing: 10)
+                    )
                     .onTapGesture {
                         segue(coin: coin)
                     }
@@ -188,7 +194,8 @@ extension HomeView {
             }
             .frame(
                 width: UIScreen.main.bounds.width / 3,
-                alignment: .trailing)
+                alignment: .trailing
+            )
             .onTapGesture {
                 withAnimation(.default) {
                     homeVM.sortOption =
@@ -209,10 +216,26 @@ extension HomeView {
         .foregroundColor(Color.theme.secondaryText)
         .padding(.horizontal)
     }
-    
+
     private func segue(coin: CoinModel) {
         selectedCoin = coin
         showDetailView.toggle()
+    }
+
+    private var loadingView: some View {
+        VStack {
+            ProgressView()
+                .progressViewStyle(
+                    CircularProgressViewStyle(tint: Color.theme.accent)
+                )
+                .scaleEffect(2)
+                .padding()
+            Text("Loading coins...")
+                .font(.headline)
+                .foregroundColor(Color.theme.secondaryText)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.theme.background.opacity(0.8))
     }
 }
 

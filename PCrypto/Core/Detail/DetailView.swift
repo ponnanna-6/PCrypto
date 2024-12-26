@@ -25,6 +25,7 @@ struct DetailLoadingView: View {
 struct DetailView: View {
     @StateObject private var vm: DetailViewModel
     @State private var showFullDescription: Bool = false
+    @State private var showLoading: Bool = true
 
     private let columns: [GridItem] = [
         GridItem(.flexible()),
@@ -39,27 +40,37 @@ struct DetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 10) {
-                ChartView(coin: vm.coin)
-                overviewTitle
-                Divider()
-                coinDescription
-                overview
-                
-                additionalTitle
-                Divider()
-                additionalDetails
-                
-                Divider()
-                websiteSection
+            if showLoading {
+                loadingView
+            } else {
+                VStack(spacing: 10) {
+                    ChartView(coin: vm.coin)
+                    overviewTitle
+                    Divider()
+                    coinDescription
+                    overview
+                    
+                    additionalTitle
+                    Divider()
+                    additionalDetails
+                    
+                    Divider()
+                    websiteSection
+                }
+                .padding()
             }
-            .padding()
         }
 
         .navigationTitle(vm.coin.name)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 navigationBarTrailingItems
+            }
+        }
+        .onAppear {
+            // Show loading view for 2 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                showLoading = false
             }
         }
     }
@@ -173,5 +184,21 @@ extension DetailView {
         .font(.title)
         .bold()
         .foregroundColor(.blue)
+    }
+    
+    private var loadingView: some View {
+        VStack {
+            ProgressView()
+                .progressViewStyle(
+                    CircularProgressViewStyle(tint: Color.theme.accent)
+                )
+                .scaleEffect(2)
+                .padding()
+            Text("Loading data...")
+                .font(.headline)
+                .foregroundColor(Color.theme.secondaryText)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .background(Color.theme.background.opacity(0.8))
     }
 }
