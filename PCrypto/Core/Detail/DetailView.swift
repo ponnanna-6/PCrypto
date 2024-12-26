@@ -23,8 +23,8 @@ struct DetailLoadingView: View {
 }
 
 struct DetailView: View {
-
     @StateObject private var vm: DetailViewModel
+    @State private var showFullDescription: Bool = false
 
     private let columns: [GridItem] = [
         GridItem(.flexible()),
@@ -41,17 +41,17 @@ struct DetailView: View {
         ScrollView {
             VStack(spacing: 10) {
                 ChartView(coin: vm.coin)
-
                 overviewTitle
                 Divider()
-                
-                if let coinDescription = vm.coinDescription, !coinDescription.isEmpty {
-                    Text(coinDescription.removingHTMLOccurances)
-                }
+                coinDescription
                 overview
-
+                
+                additionalTitle
+                Divider()
                 additionalDetails
-
+                
+                Divider()
+                websiteSection
             }
             .padding()
         }
@@ -96,24 +96,24 @@ extension DetailView {
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 
+    private var additionalTitle: some View {
+        Text("Additional Details")
+            .font(.title)
+            .bold()
+            .foregroundColor(Color.theme.accent)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
     private var additionalDetails: some View {
-        VStack {
-            Text("Additional Details")
-                .font(.title)
-                .bold()
-                .foregroundColor(Color.theme.accent)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Divider()
-            LazyVGrid(
-                columns: columns,
-                alignment: .center,
-                spacing: spacing,
-                content: {
-                    ForEach(vm.additionalStatistics) { stat in
-                        StatisticsView(stat: stat)
-                    }
-                })
-        }
+        LazyVGrid(
+            columns: columns,
+            alignment: .center,
+            spacing: spacing,
+            content: {
+                ForEach(vm.additionalStatistics) { stat in
+                    StatisticsView(stat: stat)
+                }
+            })
     }
 
     private var navigationBarTrailingItems: some View {
@@ -125,5 +125,53 @@ extension DetailView {
                 .frame(width: 25, height: 25)
 
         }
+    }
+
+    private var coinDescription: some View {
+        ZStack {
+            if let coinDescription = vm.coinDescription,
+                !coinDescription.isEmpty
+            {
+                VStack(alignment: .leading) {
+                    Text(coinDescription.removingHTMLOccurances)
+                        .lineLimit(showFullDescription ? nil : 3)
+                        .font(.callout)
+                        .foregroundColor(Color.theme.secondaryText)
+                    Button(
+                        action: {
+                            withAnimation(.easeInOut) {
+                                showFullDescription.toggle()
+                            }
+                        },
+                        label: {
+                            Text(
+                                showFullDescription ? "Less ^" : "Read more..."
+                            )
+                            .font(.caption)
+                            .bold()
+                            .padding(.vertical, 4)
+                        }
+                    )
+                    .accentColor(.blue)
+                }
+            }
+        }
+    }
+    
+    private var websiteSection: some View {
+        VStack(alignment: .center){
+            if let websiteString = vm.websiteURL,
+               let url = URL(string: websiteString) {
+                Link("Website", destination: url)
+            }
+            Divider()
+            if let redditString = vm.redditURL,
+               let url = URL(string: redditString) {
+                Link("Reddit", destination: url)
+            }
+        }
+        .font(.title)
+        .bold()
+        .foregroundColor(.blue)
     }
 }
